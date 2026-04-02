@@ -18,7 +18,7 @@ const AppContext = createContext<AppContextValue | null>(null);
 export function AppProvider({ children }: { children: ReactNode }) {
   const [activeNav, setActiveNav] = useState("dashboard");
   const [monthIdx, setMonthIdx] = useState(0);
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
 
   const currentMonth = monthSnapshots[monthIdx];
   const canPrev = monthIdx < monthSnapshots.length - 1;

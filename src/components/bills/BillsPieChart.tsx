@@ -8,10 +8,12 @@ interface BillsPieChartProps {
   slices: Slice[];
 }
 
-const CX = 90;
-const CY = 90;
-const R = 72;
-const GAP = 0.03; // radians gap between slices
+const SIZE = 220;
+const CX = SIZE / 2;
+const CY = SIZE / 2;
+const R_OUTER = 88;
+const R_INNER = 56; // donut hole radius
+const GAP = 0.025;  // radians gap between slices
 
 function polarToXY(angle: number, r: number) {
   return {
@@ -20,14 +22,19 @@ function polarToXY(angle: number, r: number) {
   };
 }
 
-function slicePath(startAngle: number, endAngle: number): string {
-  const start = polarToXY(startAngle + GAP / 2, R);
-  const end = polarToXY(endAngle - GAP / 2, R);
+function donutSlicePath(startAngle: number, endAngle: number): string {
+  const gap = GAP / 2;
+  const outerStart = polarToXY(startAngle + gap, R_OUTER);
+  const outerEnd   = polarToXY(endAngle - gap,   R_OUTER);
+  const innerEnd   = polarToXY(endAngle - gap,   R_INNER);
+  const innerStart = polarToXY(startAngle + gap, R_INNER);
   const largeArc = endAngle - startAngle - GAP > Math.PI ? 1 : 0;
+
   return [
-    `M ${CX} ${CY}`,
-    `L ${start.x} ${start.y}`,
-    `A ${R} ${R} 0 ${largeArc} 1 ${end.x} ${end.y}`,
+    `M ${outerStart.x} ${outerStart.y}`,
+    `A ${R_OUTER} ${R_OUTER} 0 ${largeArc} 1 ${outerEnd.x} ${outerEnd.y}`,
+    `L ${innerEnd.x} ${innerEnd.y}`,
+    `A ${R_INNER} ${R_INNER} 0 ${largeArc} 0 ${innerStart.x} ${innerStart.y}`,
     "Z",
   ].join(" ");
 }
@@ -36,34 +43,53 @@ export function BillsPieChart({ slices }: BillsPieChartProps) {
   const total = slices.reduce((s, sl) => s + sl.value, 0);
   if (total === 0) return null;
 
-  let cursor = -Math.PI / 2; // start at 12 o'clock
-  const rendered = slices.map((sl) => {
-    const sweep = (sl.value / total) * 2 * Math.PI;
-    const path = slicePath(cursor, cursor + sweep);
-    const midAngle = cursor + sweep / 2;
-    cursor += sweep;
-    return { ...sl, path, midAngle, sweep };
-  });
+  const startAngle = -Math.PI / 2; // start at 12 o'clock
+  const rendered = slices.reduce<{ label: string; value: number; color: string; path: string }[]>(
+    (acc, sl) => {
+      const elapsed = acc.reduce((s, r) => s + (r.value / total) * 2 * Math.PI, 0);
+      const sweep = (sl.value / total) * 2 * Math.PI;
+      const path = donutSlicePath(startAngle + elapsed, startAngle + elapsed + sweep);
+      return [...acc, { ...sl, path }];
+    },
+    []
+  );
+
+  const formattedTotal = total.toLocaleString("de-DE", { maximumFractionDigits: 0 });
 
   return (
-    <svg viewBox="0 0 180 180" width="180" height="180">
+    <svg viewBox={`0 0 ${SIZE} ${SIZE}`} width={SIZE} height={SIZE} className="shrink-0">
       {rendered.map((sl) => (
         <path
           key={sl.label}
           d={sl.path}
           fill={sl.color}
-          fillOpacity={0.9}
-          stroke="oklch(0.2000 0.0400 278)"
-          strokeWidth={1}
+          fillOpacity={0.92}
+          className="transition-opacity hover:opacity-100"
         />
       ))}
       {/* Center label */}
-      <circle cx={CX} cy={CY} r={32} fill="oklch(0.2000 0.0400 278)" />
-      <text x={CX} y={CY - 7} textAnchor="middle" fontSize={8} fill="oklch(0.5800 0.0400 270)" fontFamily="DM Sans, sans-serif">
-        Total
+      <text
+        x={CX}
+        y={CY - 9}
+        textAnchor="middle"
+        fontSize={10}
+        fill="oklch(0.5811 0.0399 269.57)"
+        fontFamily="ui-sans-serif, system-ui, sans-serif"
+        fontWeight="500"
+        letterSpacing="0.04em"
+      >
+        TOTAL
       </text>
-      <text x={CX} y={CY + 7} textAnchor="middle" fontSize={11} fontWeight="600" fill="oklch(0.9400 0.0100 270)" fontFamily="DM Sans, sans-serif">
-        €{total.toLocaleString("de-DE", { maximumFractionDigits: 0 })}
+      <text
+        x={CX}
+        y={CY + 13}
+        textAnchor="middle"
+        fontSize={17}
+        fontWeight="700"
+        fill="oklch(0.9398 0.0100 267.36)"
+        fontFamily="ui-sans-serif, system-ui, sans-serif"
+      >
+        €{formattedTotal}
       </text>
     </svg>
   );

@@ -11,10 +11,10 @@ import { BillsView } from "@/components/bills/BillsView";
 function DashboardContent() {
   return (
     <div className="flex-1 overflow-y-auto px-6 py-6">
-      <div className="mx-auto max-w-6xl space-y-4">
+      <div className="mx-auto max-w-6xl space-y-6">
         <NetWorthCard />
         <StatCardGrid />
-        <div className="grid grid-cols-[3fr_2fr] gap-4">
+        <div className="grid grid-cols-[3fr_2fr] gap-5">
           <CashFlowCard />
           <BudgetCard />
         </div>
@@ -28,8 +28,10 @@ function MainContent() {
   const { activeNav } = useApp();
   if (activeNav === "bills") {
     return (
-      <div className="flex flex-1 flex-col overflow-hidden px-6 py-6">
-        <BillsView />
+      <div className="flex-1 overflow-y-auto px-6 py-6">
+        <div className="mx-auto flex max-w-6xl flex-col" style={{ height: "calc(100vh - 73px)" }}>
+          <BillsView />
+        </div>
       </div>
     );
   }

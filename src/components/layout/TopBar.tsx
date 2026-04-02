@@ -1,42 +1,20 @@
 import { Bell, ChevronLeft, ChevronRight } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import { navItems } from "@/data/mockData";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
-const PAGE_TITLES: Record<string, string> = {
-  dashboard: "Dashboard",
-  analytics: "Analytics",
-  portfolio: "Portfolio",
-  transactions: "Transactions",
-  budgets: "Budgets",
-  bills: "Bills",
-};
-
 export function TopBar() {
   const { activeNav, monthIdx, setMonthIdx, currentMonth, canPrev, canNext } = useApp();
-  const title = PAGE_TITLES[activeNav] ?? "Dashboard";
-  const navLabel = navItems.find((n) => n.id === activeNav)?.label ?? title;
+  const navLabel = navItems.find((n) => n.id === activeNav)?.label ?? "Dashboard";
 
   return (
     <div className="flex items-center justify-between border-b border-border px-6 py-4">
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4">
         <h1 className="font-serif text-xl font-semibold">{navLabel}</h1>
-        {activeNav === "dashboard" && (
-          <Tabs defaultValue="overview">
-            <TabsList className="bg-transparent p-0 gap-1">
-              <TabsTrigger value="overview" className="cursor-pointer text-sm data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none pb-1">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger value="cashflow" className="cursor-pointer text-sm data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none pb-1">
-                Cash Flow
-              </TabsTrigger>
-              <TabsTrigger value="assets" className="cursor-pointer text-sm data-[state=active]:text-primary data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:bg-transparent rounded-none pb-1">
-                Assets
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+        {activeNav === "bills" && (
+          <Button variant="outline" size="sm">Export</Button>
         )}
       </div>
 

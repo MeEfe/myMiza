@@ -7,10 +7,10 @@ export function Sidebar() {
   const { activeNav, setActiveNav } = useApp();
 
   return (
-    <aside className="flex h-full flex-col border-r border-sidebar-border bg-sidebar px-4 py-6">
+    <aside className="flex h-full flex-col bg-sidebar px-4 py-6">
       {/* Brand */}
       <div className="mb-8 flex items-center gap-3 px-0">
-        <div className="h-8 w-8 rounded border border-primary" />
+        <div className="h-8 w-8 rounded bg-primary" />
         <span className="font-serif text-xl font-semibold text-primary">MyMiza</span>
       </div>
 
@@ -27,8 +27,10 @@ export function Sidebar() {
         ))}
       </nav>
 
-      {/* Settings */}
-      <NavItem icon={Settings} label="Settings" isActive={false} onClick={() => {}} />
+      {/* Settings — utility, separated */}
+      <div className="border-t border-sidebar-border pt-2">
+        <NavItem icon={Settings} label="Settings" isActive={false} onClick={() => {}} />
+      </div>
     </aside>
   );
 }

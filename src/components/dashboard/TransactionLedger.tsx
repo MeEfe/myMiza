@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TransactionRow } from "./TransactionRow";
 import { transactions } from "@/data/mockData";
@@ -15,22 +14,29 @@ export function TransactionLedger() {
   );
 
   return (
-    <Card className="border-border">
-      <CardHeader className="flex flex-row items-center justify-between pb-2 pt-4 px-5">
-        <CardTitle className="font-serif text-lg font-semibold">Recent Transactions</CardTitle>
-        <Tabs value={filter} onValueChange={(v) => setFilter(v as Filter)}>
-          <TabsList className="h-8 bg-secondary">
-            <TabsTrigger value="all" className="cursor-pointer text-xs px-3 h-6">All</TabsTrigger>
-            <TabsTrigger value="outflow" className="cursor-pointer text-xs px-3 h-6">Outflow</TabsTrigger>
-            <TabsTrigger value="inflow" className="cursor-pointer text-xs px-3 h-6">Inflow</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </CardHeader>
-      <CardContent className="px-5 pb-2">
+    <div className="rounded-xl border border-border bg-card p-5">
+      <div className="mb-4 flex items-center justify-between">
+        <h2 className="font-serif text-lg font-semibold">Transactions</h2>
+        <div className="flex items-center gap-4">
+          <Tabs value={filter} onValueChange={(v) => setFilter(v as Filter)}>
+            <TabsList className="h-8 bg-secondary">
+              <TabsTrigger value="all" className="cursor-pointer text-xs px-3 h-6">All</TabsTrigger>
+              <TabsTrigger value="outflow" className="cursor-pointer text-xs px-3 h-6">Outflow</TabsTrigger>
+              <TabsTrigger value="inflow" className="cursor-pointer text-xs px-3 h-6">Inflow</TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+      </div>
+      <div>
         {filtered.map((t: Transaction) => (
           <TransactionRow key={t.id} {...t} />
         ))}
-      </CardContent>
-    </Card>
+      </div>
+      <div className="mt-3 border-t border-border pt-3 text-center">
+        <button className="text-xs text-primary hover:underline cursor-pointer transition-colors">
+          See All Transactions →
+        </button>
+      </div>
+    </div>
   );
 }
