@@ -32,7 +32,9 @@ AppLayout (wraps AppProvider)             ← src/components/layout/AppLayout.ts
         └── VariableBillRow (groceries, dining, etc.)
 ```
 
-`activeNav` defaults to `"dashboard"`; only `"bills"` renders a different view — all other nav IDs fall through to `DashboardContent`.
+`activeNav` defaults to `"dashboard"`; only `"bills"` and `"profile"` render dedicated views — all other nav IDs fall through to `DashboardContent`.
+
+There is no routing library. Navigation is a `renderView(activeNav)` switch in `AppLayout.tsx`. To add a new top-level view, add a case to that switch and a nav item in `mockData.ts`.
 
 ### Global state — `src/context/AppContext.tsx`
 
@@ -41,6 +43,7 @@ Single context drives the whole app:
 - `monthIdx` — selected month snapshot index (0 = Mar 2026, 1 = Feb, 2 = Jan)
 - `isDark` — theme toggle
 - `canPrev` / `canNext` / `currentMonth` — month navigation helpers
+- `featureFlags` / `toggleFeature` — feature flag map (see below)
 
 ### Data layer — `src/data/mockData.ts`
 
@@ -60,6 +63,15 @@ When adding real data, the mock data file is the single integration point.
 
 shadcn/ui primitives live in `src/components/ui/`. Style variant is `radix-nova` with `neutral` base color (see `components.json`). Add new shadcn components with `pnpm dlx shadcn@latest add <component>`.
 
-### Category colors — `src/lib/categoryColors.ts`
+### Feature flags — `src/data/featureFlags.json`
 
-Single source of truth for category badge styling (bg + text Tailwind classes). Used by `TransactionLedger`, `BillsDonutChart`, `BudgetCard`, and `BillStatusBadge`. When adding a new spending category, add it here first.
+Defaults are defined in `featureFlags.json` and overrides stored in `localStorage` (key: `"featureFlags"`). Read flags via `const { featureFlags } = useApp()` and check `featureFlags.flagName?.enabled`. To add a flag, add it to the JSON file first.
+
+### Utility libraries
+
+- **`src/lib/categoryColors.ts`** — single source of truth for category badge styling (bg + text Tailwind classes). Used by `TransactionLedger`, `BillsDonutChart`, `BudgetCard`, and `BillStatusBadge`. When adding a new spending category, add it here first.
+- **`src/lib/budgetStatus.ts`** — maps budget-spent percentage to a Tailwind color class across four tiers (0–70 % / 70–90 % / 90–100 % / >100 %). Used by budget progress bars.
+
+### No tests
+
+There is no test framework configured. `pnpm build` (type-check + Vite build) is the primary correctness gate.
