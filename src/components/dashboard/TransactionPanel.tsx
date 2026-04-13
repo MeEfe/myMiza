@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { transactions } from "@/data/mockData";
 import { useApp } from "@/context/AppContext";
 import { cn } from "@/lib/utils";
 import type { Transaction } from "@/types";
@@ -15,7 +14,7 @@ const FILTERS: { id: Filter; label: string }[] = [
 
 export function TransactionPanel() {
   const [filter, setFilter] = useState<Filter>("all");
-  const { setActiveNav } = useApp();
+  const { setActiveNav, transactions } = useApp();
   const filtered = transactions
     .filter((t: Transaction) => filter === "all" ? true : t.type === filter)
     .slice(0, 4);
@@ -24,14 +23,14 @@ export function TransactionPanel() {
     <div className="flex flex-1 min-h-0 flex-col px-8 py-5">
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 cursor-pointer hover:text-muted-foreground" onClick={() => setActiveNav("bills")}
+        <div className="flex items-center gap-2 cursor-pointer hover:text-muted-foreground" onClick={() => setActiveNav("transactions")}
 				>
           <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
             Recent Transactions
           </p>
           <button
             className="flex cursor-pointer justify-center rounded-md p-0.5 text-muted-foreground/50 transition-all duration-150"
-            aria-label="Go to bills"
+            aria-label="Go to transactions"
           >
             <ArrowRight size={13} />
           </button>
@@ -63,7 +62,7 @@ export function TransactionPanel() {
               key={t.id}
               className="group flex items-center gap-4 rounded-lg px-2 py-2.5 transition-colors duration-150 hover:bg-secondary/50"
             >
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary group-hover:bg-muted transition-colors duration-150">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center">
                 <Icon size={14} strokeWidth={1.5} className="text-muted-foreground" />
               </div>
               <div className="flex-1 min-w-0">

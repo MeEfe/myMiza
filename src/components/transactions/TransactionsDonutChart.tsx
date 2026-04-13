@@ -10,7 +10,7 @@ const CX = 80;
 const CY = 80;
 const CIRCUMFERENCE = 2 * Math.PI * R;
 
-export function BillsDonutChart({ totalFixed, totalVariable }: DonutChartProps) {
+export function TransactionsDonutChart({ totalFixed, totalVariable }: DonutChartProps) {
   const total = totalFixed + totalVariable;
   const fixedPct = total > 0 ? totalFixed / total : 0;
   const fixedDash = fixedPct * CIRCUMFERENCE;

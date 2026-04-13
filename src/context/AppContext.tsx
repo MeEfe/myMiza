@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
-import { monthSnapshots } from "@/data/mockData";
+import { monthSnapshots, transactions as initialTransactions } from "@/data/mockData";
 import defaultFlags from "@/data/featureFlags.json";
-import type { FeatureFlags } from "@/types";
+import type { FeatureFlags, Transaction } from "@/types";
 
 interface AppContextValue {
   activeNav: string;
@@ -15,6 +15,8 @@ interface AppContextValue {
   toggleDark: () => void;
   featureFlags: FeatureFlags;
   toggleFeature: (key: string) => void;
+  transactions: Transaction[];
+  addTransaction: (t: Omit<Transaction, "id">) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -40,6 +42,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [monthIdx, setMonthIdx] = useState(0);
   const [isDark, setIsDark] = useState(false);
   const [featureFlags, setFeatureFlags] = useState<FeatureFlags>(loadFlags);
+  const [transactions, setTransactions] = useState<Transaction[]>(initialTransactions);
 
   const currentMonth = monthSnapshots[monthIdx];
   const canPrev = monthIdx < monthSnapshots.length - 1;
@@ -66,8 +69,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }));
   };
 
+  const addTransaction = (t: Omit<Transaction, "id">) => {
+    setTransactions((prev) => [{ ...t, id: crypto.randomUUID() }, ...prev]);
+  };
+
   return (
-    <AppContext.Provider value={{ activeNav, setActiveNav, monthIdx, setMonthIdx, currentMonth, canPrev, canNext, isDark, toggleDark, featureFlags, toggleFeature }}>
+    <AppContext.Provider value={{ activeNav, setActiveNav, monthIdx, setMonthIdx, currentMonth, canPrev, canNext, isDark, toggleDark, featureFlags, toggleFeature, transactions, addTransaction }}>
       {children}
     </AppContext.Provider>
   );

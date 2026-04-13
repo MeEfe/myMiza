@@ -1,3 +1,10 @@
+import type { LucideIcon } from "lucide-react";
+import {
+  Home, ShoppingCart, Zap, Shield, Tv, Car,
+  Dumbbell, GraduationCap, Utensils, Wallet,
+  Laptop, Music, CreditCard,
+} from "lucide-react";
+
 // Shared category color palette — consistent across Transactions, Bills donut, and Budget
 export const CATEGORY_BADGE: Record<string, { bg: string; text: string }> = {
   Housing:       { bg: "bg-amber-500/15",   text: "text-amber-600" },
@@ -17,3 +24,21 @@ export const CATEGORY_BADGE: Record<string, { bg: string; text: string }> = {
 };
 
 export const DEFAULT_BADGE = { bg: "bg-secondary", text: "text-muted-foreground" };
+
+// Default icon per category — used when creating a new transaction
+export const CATEGORY_DEFAULT_ICON: Record<string, LucideIcon> = {
+  Housing:       Home,
+  Groceries:     ShoppingCart,
+  Utilities:     Zap,
+  Insurance:     Shield,
+  Subscriptions: Tv,
+  Transport:     Car,
+  Health:        Dumbbell,
+  Education:     GraduationCap,
+  Dining:        Utensils,
+  Income:        Wallet,
+  Work:          Laptop,
+  Leisure:       Music,
+  Personal:      CreditCard,
+  Food:          Utensils,
+};

@@ -3,6 +3,7 @@ import { useApp } from "@/context/AppContext";
 import { navItems } from "@/data/mockData";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { ProfileModal } from "./ProfileModal";
+import { AddTransactionModal } from "./AddTransactionModal";
 
 export function TopBar() {
   const { activeNav, monthIdx, setMonthIdx, currentMonth, canPrev, canNext } = useApp();
@@ -16,6 +17,8 @@ export function TopBar() {
 
       {/* Right controls */}
       <div className="flex items-center gap-3">
+        <AddTransactionModal />
+
         {/* Month pill navigator */}
         <div className="flex items-center gap-0.5 rounded-full border border-border px-1 py-1 bg-secondary/40">
           <button

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { BillsPieChart } from "./BillsPieChart";
-import { FixedBillRow } from "./FixedBillRow";
-import { VariableBillRow } from "./VariableBillRow";
+import { TransactionsPieChart } from "./TransactionsPieChart";
+import { FixedTransactionRow } from "./FixedTransactionRow";
+import { VariableTransactionRow } from "./VariableTransactionRow";
 import { fixedBills, variableBills } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 import type { BillStatus } from "@/types";
@@ -38,7 +38,7 @@ function buildSlices(tab: Tab) {
     }));
   } else {
     const map: Record<string, number> = {};
-    variableBills.forEach((b) => { map[b.category] = (map[b.category] ?? 0) + b.used; });
+    variableBills.forEach((b) => { map[b.category] = (map[b.category] ?? 0) + b.amount; });
     return Object.entries(map).map(([label, value]) => ({
       label, value, color: VARIABLE_COLORS[label] ?? "oklch(0.5500 0.1000 270)",
     }));
@@ -53,12 +53,12 @@ const STATUS_LABEL: Record<BillStatus, string> = {
   paid: "Paid",
 };
 
-export function BillsView() {
+export function TransactionsView() {
   const [tab, setTab] = useState<Tab>("fixed");
   const slices = buildSlices(tab);
   const total = tab === "fixed"
     ? fixedBills.reduce((s, b) => s + b.amount, 0)
-    : variableBills.reduce((s, b) => s + b.used, 0);
+    : variableBills.reduce((s, b) => s + b.amount, 0);
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -93,7 +93,7 @@ export function BillsView() {
       <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Left — chart widget */}
         <div className="flex w-[260px] shrink-0 flex-col items-center border-r border-border px-6 py-6 overflow-y-auto">
-          <BillsPieChart slices={slices} size={160} />
+          <TransactionsPieChart slices={slices} size={160} />
 
           {/* Legend */}
           <div className="mt-5 w-full space-y-2.5">
@@ -125,7 +125,7 @@ export function BillsView() {
                       <div className="space-y-px rounded-xl overflow-hidden border border-border">
                         {group.map((b, i) => (
                           <div key={b.id} className={cn(i > 0 && "border-t border-border/60")}>
-                            <FixedBillRow {...b} />
+                            <FixedTransactionRow {...b} />
                           </div>
                         ))}
                       </div>
@@ -138,7 +138,7 @@ export function BillsView() {
               <div className="rounded-xl overflow-hidden border border-border pr-3">
                 {variableBills.map((b, i) => (
                   <div key={b.id} className={cn(i > 0 && "border-t border-border/60")}>
-                    <VariableBillRow {...b} />
+                    <VariableTransactionRow {...b} />
                   </div>
                 ))}
               </div>

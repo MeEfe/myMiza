@@ -22,17 +22,18 @@ pnpm preview      # Preview production build
 ```
 AppLayout (wraps AppProvider)             ← src/components/layout/AppLayout.tsx
 └── Sidebar + TopBar + MainContent
-    ├── DashboardContent  (activeNav === "dashboard")   ← private component in AppLayout.tsx
-    │   ├── NetWorthCard, StatCardGrid
-    │   ├── CashFlowCard (SankeyDiagram) + BudgetCard
-    │   └── TransactionLedger
-    └── BillsView         (activeNav === "bills")
-        ├── BillsDonutChart / BillsPieChart
-        ├── FixedBillRow (rent, insurance, etc.)
-        └── VariableBillRow (groceries, dining, etc.)
+    ├── DashboardView  (activeNav === "dashboard")   ← src/components/dashboard/DashboardView.tsx
+    │   ├── NetWorthHero (behind `trading` feature flag)
+    │   ├── StatStrip + BudgetPanel  (left column)
+    │   └── CashFlowPanel (SankeyDiagram + SankeyModal) + TransactionPanel  (right column)
+    ├── BillsView      (activeNav === "bills")       ← src/components/bills/BillsView.tsx
+    │   ├── BillsDonutChart / BillsPieChart
+    │   ├── FixedBillRow (rent, insurance, etc.)
+    │   └── VariableBillRow (groceries, dining, etc.)
+    └── ProfileView    (activeNav === "profile")     ← src/components/profile/ProfileView.tsx
 ```
 
-`activeNav` defaults to `"dashboard"`; only `"bills"` and `"profile"` render dedicated views — all other nav IDs fall through to `DashboardContent`.
+`activeNav` defaults to `"dashboard"`; only `"bills"` and `"profile"` render dedicated views — all other nav IDs fall through to `DashboardView`.
 
 There is no routing library. Navigation is a `renderView(activeNav)` switch in `AppLayout.tsx`. To add a new top-level view, add a case to that switch and a nav item in `mockData.ts`.
 

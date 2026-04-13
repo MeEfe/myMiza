@@ -6,7 +6,7 @@ interface Slice {
   color: string;
 }
 
-interface BillsPieChartProps {
+interface TransactionsPieChartProps {
   slices: Slice[];
   size?: number;
 }
@@ -42,7 +42,7 @@ function donutSlicePath(startAngle: number, endAngle: number): string {
   ].join(" ");
 }
 
-export function BillsPieChart({ slices, size = SIZE }: BillsPieChartProps) {
+export function TransactionsPieChart({ slices, size = SIZE }: TransactionsPieChartProps) {
   const [hovered, setHovered] = useState<string | null>(null);
   const total = slices.reduce((s, sl) => s + sl.value, 0);
   if (total === 0) return null;

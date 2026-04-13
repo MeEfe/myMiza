@@ -1,7 +1,7 @@
 import {
   Wallet, CreditCard, PiggyBank, CalendarClock,
   Home, ShoppingCart, Building2, Utensils, Laptop,
-  LayoutDashboard, BarChart3, Briefcase, ArrowLeftRight, Target, Receipt,
+  LayoutDashboard, BarChart3, Briefcase, ArrowLeftRight, Target,
   Wifi, Phone, Shield, Tv, Zap, Droplets, Car, GraduationCap, Dumbbell, Music,
 } from "lucide-react";
 import type { StatCardData, SankeyNode, SankeyLink, BudgetItem, Transaction, NetWorthData, MonthSnapshot, FixedBill, VariableBill } from "@/types";
@@ -131,7 +131,6 @@ export const navItems = [
   { id: "portfolio", label: "Portfolio", icon: Briefcase },
   { id: "transactions", label: "Transactions", icon: ArrowLeftRight },
   { id: "budgets", label: "Budgets", icon: Target },
-  { id: "bills", label: "Bills", icon: Receipt },
 ];
 
 export const fixedBills: FixedBill[] = [
@@ -152,13 +151,16 @@ export const fixedBills: FixedBill[] = [
 ];
 
 export const variableBills: VariableBill[] = [
-  { id: "v1", icon: ShoppingCart, name: "Groceries",            used: 380,  budget: 500,  category: "Food" },
-  { id: "v2", icon: Utensils,     name: "Dining Out",           used: 210,  budget: 250,  category: "Food" },
-  { id: "v3", icon: Car,          name: "Fuel & Parking",       used: 95,   budget: 150,  category: "Transport" },
-  { id: "v4", icon: Laptop,       name: "Software & Tools",     used: 67,   budget: 100,  category: "Work" },
-  { id: "v5", icon: Dumbbell,     name: "Sports & Wellness",    used: 55,   budget: 80,   category: "Health" },
-  { id: "v6", icon: Music,        name: "Entertainment",        used: 120,  budget: 150,  category: "Leisure" },
-  { id: "v7", icon: ShoppingCart, name: "Clothing & Apparel",   used: 180,  budget: 200,  category: "Personal" },
-  { id: "v8", icon: Home,         name: "Home & Maintenance",   used: 230,  budget: 200,  category: "Housing" },
-  { id: "v9", icon: GraduationCap,name: "Books & Courses",      used: 45,   budget: 60,   category: "Education" },
+  { id: "v1",  icon: ShoppingCart,  name: "Spar Supermarket",          date: "Apr 2, 2026",  amount:  67.30, category: "Food"      },
+  { id: "v2",  icon: ShoppingCart,  name: "Billa Weekly Shop",         date: "Apr 9, 2026",  amount:  82.40, category: "Food"      },
+  { id: "v3",  icon: Utensils,      name: "Restaurant Alpenblick",     date: "Apr 5, 2026",  amount:  42.50, category: "Food"      },
+  { id: "v4",  icon: Utensils,      name: "Pizza & Drinks",            date: "Apr 11, 2026", amount:  28.90, category: "Food"      },
+  { id: "v5",  icon: Car,           name: "Fuel — OMV",                date: "Apr 3, 2026",  amount:  61.20, category: "Transport" },
+  { id: "v6",  icon: Car,           name: "Parking Garage",            date: "Apr 8, 2026",  amount:  18.00, category: "Transport" },
+  { id: "v7",  icon: Laptop,        name: "Figma Pro",                 date: "Apr 1, 2026",  amount:  15.00, category: "Work"      },
+  { id: "v8",  icon: Dumbbell,      name: "Climbing Day Pass",         date: "Apr 6, 2026",  amount:  22.00, category: "Health"    },
+  { id: "v9",  icon: Music,         name: "Concert Ticket",            date: "Apr 10, 2026", amount:  55.00, category: "Leisure"   },
+  { id: "v10", icon: ShoppingCart,  name: "Zara Spring Jacket",        date: "Apr 4, 2026",  amount:  79.95, category: "Personal"  },
+  { id: "v11", icon: Home,          name: "Hardware Store — Bauhaus",  date: "Apr 7, 2026",  amount:  34.20, category: "Housing"   },
+  { id: "v12", icon: GraduationCap, name: "Udemy Course",              date: "Apr 2, 2026",  amount:  19.99, category: "Education" },
 ];

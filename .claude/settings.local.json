@@ -3,7 +3,9 @@
     "allow": [
       "Bash(pnpm typecheck:*)",
       "Bash(pnpm dlx:*)",
-      "Bash(awk '{print $NF}')"
+      "Bash(awk '{print $NF}')",
+      "Bash(pnpm build:*)",
+      "Bash(git mv:*)"
     ]
   }
 }

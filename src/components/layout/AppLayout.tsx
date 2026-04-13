@@ -2,12 +2,12 @@ import { AppProvider, useApp } from "@/context/AppContext";
 import { Sidebar } from "./Sidebar";
 import { TopBar } from "./TopBar";
 import { DashboardView } from "@/components/dashboard/DashboardView";
-import { BillsView } from "@/components/bills/BillsView";
+import { TransactionsView } from "@/components/transactions/TransactionsView";
 import { ProfileView } from "@/components/profile/ProfileView";
 
 function renderView(activeNav: string) {
   switch (activeNav) {
-    case "bills":   return <BillsView />;
+    case "transactions": return <TransactionsView />;
     case "profile": return <ProfileView />;
     default:        return <DashboardView />;
   }

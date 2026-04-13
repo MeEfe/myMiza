@@ -25,6 +25,8 @@ export interface BudgetItem {
   total: number;
 }
 
+export type Recurrence = "weekly" | "monthly" | "yearly";
+
 export interface Transaction {
   id: string;
   icon: LucideIcon;
@@ -33,6 +35,7 @@ export interface Transaction {
   category: string;
   type: "inflow" | "outflow";
   amount: number;
+  recurrence?: Recurrence | null;
 }
 
 export interface NavItemData {
@@ -70,8 +73,8 @@ export interface VariableBill {
   id: string;
   icon: LucideIcon;
   name: string;
-  used: number;
-  budget: number;
+  date: string;
+  amount: number;
   category: string;
 }
 
